@@ -1,0 +1,2 @@
+# LogicAppDemo_StorageAccount
+LogicAppDemo_StorageAccount
