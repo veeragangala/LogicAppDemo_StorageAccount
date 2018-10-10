@@ -72,6 +72,27 @@
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
       }
+    },
+    "azurefile_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azurefile-1"
+    },
+    "azurefile_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "AzureFileStorage"
+    },
+    "azurefile_2_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "filestorageacc"
+    },
+    "azurefile_2_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
     }
   },
   "variables": {},
@@ -93,14 +114,14 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['azurefile']['connectionId']"
+                    "name": "@parameters('$connections')['azurefile_1']['connectionId']"
                   }
                 },
                 "method": "post",
                 "body": "@triggerBody()",
                 "path": "/datasets/default/files",
                 "queries": {
-                  "folderPath":"[parameters('FileSharePath')]",
+                  "folderPath": "[parameters('FileSharePath')]",
                   "name": "@{triggerBody()?['Order']?['BatchFileName']}.json",
                   "queryParametersSingleEncoded": true
                 }
@@ -118,7 +139,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Bath fie is reated in FileShare"
+                  "Status": "Success"
                 },
                 "schema": {
                   "type": "object",
@@ -191,17 +212,17 @@
         "parameters": {
           "$connections": {
             "value": {
-              "azurefile": {
+              "azurefile_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_1_Connection_Name'))]",
-                "connectionName": "[parameters('azurefile_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_2_Connection_Name'))]",
+                "connectionName": "[parameters('azurefile_2_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azurefile_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azurefile_2_Connection_Name'))]"
       ]
     },
     {
@@ -217,6 +238,22 @@
         "parameterValues": {
           "accountName": "[parameters('azurefile_1_accountName')]",
           "accessKey": "[parameters('azurefile_1_accessKey')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azurefile_2_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]"
+        },
+        "displayName": "[parameters('azurefile_2_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azurefile_2_accountName')]",
+          "accessKey": "[parameters('azurefile_2_accessKey')]"
         }
       }
     }
