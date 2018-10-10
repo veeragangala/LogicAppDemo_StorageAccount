@@ -1,0 +1,20 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "logicAppName": {
+        "value": "Demo_FileShareApp"
+      },
+      "FileSharePath": {
+            "value": "/demofileshare"
+        },
+        "azurefile_1_accessKey": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/6eda0e0d-5dd6-4ef5-bc10-21a9a3371203/resourceGroups/SecondResource/providers/Microsoft.KeyVault/vaults/TestValut"
+                },
+                "secretName": "AppValue"
+            }
+        }
+    }
+}

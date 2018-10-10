@@ -10,6 +10,14 @@
         "description": "Name of the Logic App."
       }
     },
+    "FileSharePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "File Share path"
+      }
+    },
     "logicAppLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
@@ -92,7 +100,7 @@
                 "body": "@triggerBody()",
                 "path": "/datasets/default/files",
                 "queries": {
-                  "folderPath": "/demofileshare",
+                  "folderPath":"[parameters('FileSharePath')]",
                   "name": "@{triggerBody()?['Order']?['BatchFileName']}.json",
                   "queryParametersSingleEncoded": true
                 }
