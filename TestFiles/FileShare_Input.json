@@ -1,0 +1,20 @@
+{
+  "Order": {
+    "BatchFileName": "Test.json",
+    "OrdersDetails": [
+      {
+        "OrderInfo": {
+          "Name": "Mobile",
+          "Price": "3000"
+        }
+      },
+      {
+        "OrderInfo": {
+          "Name": "Laptop",
+          "Price": "30000"
+        }
+      }
+    ]
+
+  }
+}
