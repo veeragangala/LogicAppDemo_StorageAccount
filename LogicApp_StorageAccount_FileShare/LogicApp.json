@@ -118,7 +118,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Bath fie is reated in File share Location"
+                  "Status": "Bath fie is reated in File share Location path"
                 },
                 "schema": {
                   "type": "object",
