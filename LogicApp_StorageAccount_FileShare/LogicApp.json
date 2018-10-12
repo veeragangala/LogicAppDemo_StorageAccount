@@ -169,7 +169,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Successfully created file"
+                  "Status": "Success"
                 },
                 "schema": {
                   "type": "object",
