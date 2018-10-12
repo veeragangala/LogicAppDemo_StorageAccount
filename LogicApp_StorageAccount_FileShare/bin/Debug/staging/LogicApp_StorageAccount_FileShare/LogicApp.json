@@ -93,6 +93,32 @@
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
       }
+    },
+    "LogicAppIntegrationAccount": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourcegroups/DemoResourceGroup/providers/Microsoft.Logic/integrationAccounts/DemoIntegrationAccount"
+    },
+    "azurefile_3_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azurefile-3"
+    },
+    "azurefile_3_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "filestorage"
+    },
+    "azurefile_3_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "filestorageacc1"
+    },
+    "azurefile_3_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
     }
   },
   "variables": {},
@@ -114,19 +140,23 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['azurefile_1']['connectionId']"
+                    "name": "@parameters('$connections')['azurefile_2']['connectionId']"
                   }
                 },
                 "method": "post",
-                "body": "@triggerBody()",
+                "body": "@body('Transform_XML')",
                 "path": "/datasets/default/files",
                 "queries": {
                   "folderPath": "[parameters('FileSharePath')]",
-                  "name": "@{triggerBody()?['Order']?['BatchFileName']}.json",
+                  "name": "@{triggerBody()?['Order']?['BatchFileName']}.xml",
                   "queryParametersSingleEncoded": true
                 }
               },
-              "runAfter": {},
+              "runAfter": {
+                "Transform_XML": [
+                  "Succeeded"
+                ]
+              },
               "runtimeConfiguration": {
                 "contentTransfer": {
                   "transferMode": "Chunked"
@@ -139,7 +169,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Bath fie is reated in FileShare"
+                  "Status": "SuccessFile"
                 },
                 "schema": {
                   "type": "object",
@@ -155,6 +185,34 @@
                   "Succeeded"
                 ]
               }
+            },
+            "Transform_XML": {
+              "type": "Xslt",
+              "inputs": {
+                "content": "@{xml(triggerBody())}",
+                "integrationAccount": {
+                  "map": {
+                    "name": "Map_Order_To_Invoice"
+                  }
+                }
+              },
+              "runAfter": {
+                "XML_Validation": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "XML_Validation": {
+              "type": "XmlValidation",
+              "inputs": {
+                "content": "@{xml(triggerBody())}",
+                "integrationAccount": {
+                  "schema": {
+                    "name": "Input_OrderSchema"
+                  }
+                }
+              },
+              "runAfter": {}
             }
           },
           "parameters": {
@@ -212,17 +270,20 @@
         "parameters": {
           "$connections": {
             "value": {
-              "azurefile_1": {
+              "azurefile_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_2_Connection_Name'))]",
-                "connectionName": "[parameters('azurefile_2_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_3_Connection_Name'))]",
+                "connectionName": "[parameters('azurefile_3_Connection_Name')]"
               }
             }
           }
+        },
+        "integrationAccount": {
+          "id": "[parameters('LogicAppIntegrationAccount')]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azurefile_2_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azurefile_3_Connection_Name'))]"
       ]
     },
     {
@@ -254,6 +315,22 @@
         "parameterValues": {
           "accountName": "[parameters('azurefile_2_accountName')]",
           "accessKey": "[parameters('azurefile_2_accessKey')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azurefile_3_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]"
+        },
+        "displayName": "[parameters('azurefile_3_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azurefile_3_accountName')]",
+          "accessKey": "[parameters('azurefile_3_accessKey')]"
         }
       }
     }
