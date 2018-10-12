@@ -7,14 +7,18 @@
   <xsl:template match="/Order">
     <ns0:Invoice>
       <xsl:for-each select="OrdersDetails">
-        <Orders>
-          <Name>
-            <xsl:value-of select="OrderInfo/Name/text()" />
-          </Name>
-          <Price>
-            <xsl:value-of select="OrderInfo/Price/text()" />
-          </Price>
-        </Orders>
+        <xsl:for-each select="OrderInfo">
+          <xsl:for-each select="Name">
+            <Orders>
+              <Name>
+                <xsl:value-of select="./text()" />
+              </Name>
+              <Price>
+                <xsl:value-of select="../Price/text()" />
+              </Price>
+            </Orders>
+          </xsl:for-each>
+        </xsl:for-each>
       </xsl:for-each>
     </ns0:Invoice>
   </xsl:template>

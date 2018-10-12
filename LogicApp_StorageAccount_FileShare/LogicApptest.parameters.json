@@ -6,7 +6,7 @@
         "value": "Demo_FileShareApp"
       },
       "FileSharePath": {
-            "value": "/demofileshare"
+            "value": "/test-fileshare"
         },
         "azurefile_1_accessKey": {
             "reference": {

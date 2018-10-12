@@ -14,17 +14,25 @@
         "azurefile_1_accessKey": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/6eda0e0d-5dd6-4ef5-bc10-21a9a3371203/resourceGroups/SecondResource/providers/Microsoft.KeyVault/vaults/TestValut"
+                    "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/demodevopsvault"
                 },
-                "secretName": "AzureFileStorageAccessKey1"
+                "secretName": "FileShareaccesskey1"
             }
         },
         "azurefile_2_accessKey": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/6eda0e0d-5dd6-4ef5-bc10-21a9a3371203/resourceGroups/SecondResource/providers/Microsoft.KeyVault/vaults/TestValut"
+                    "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/demodevopsvault"
                 },
-                "secretName": "AzureFIleStorageAccessKey2"
+                "secretName": "Fileshareaccesskey2"
+            }
+        },
+        "azurefile_3_accessKey": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/demodevopsvault"
+                },
+                "secretName": "FileShareaccesskey1"
             }
         }
     }

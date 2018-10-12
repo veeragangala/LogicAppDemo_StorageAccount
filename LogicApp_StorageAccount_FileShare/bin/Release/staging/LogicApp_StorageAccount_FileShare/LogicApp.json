@@ -97,7 +97,28 @@
     "LogicAppIntegrationAccount": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "/subscriptions/6eda0e0d-5dd6-4ef5-bc10-21a9a3371203/resourcegroups/MyFirstLogicApp/providers/Microsoft.Logic/integrationAccounts/DemoIntegrationAccount"
+      "defaultValue": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourcegroups/DemoResourceGroup/providers/Microsoft.Logic/integrationAccounts/DemoIntegrationAccount"
+    },
+    "azurefile_3_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azurefile-3"
+    },
+    "azurefile_3_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "filestorage"
+    },
+    "azurefile_3_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "filestorageacc1"
+    },
+    "azurefile_3_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
     }
   },
   "variables": {},
@@ -119,7 +140,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['azurefile_1']['connectionId']"
+                    "name": "@parameters('$connections')['azurefile_2']['connectionId']"
                   }
                 },
                 "method": "post",
@@ -148,7 +169,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Success"
+                  "Status": "Successfully created file"
                 },
                 "schema": {
                   "type": "object",
@@ -249,10 +270,10 @@
         "parameters": {
           "$connections": {
             "value": {
-              "azurefile_1": {
+              "azurefile_2": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_2_Connection_Name'))]",
-                "connectionName": "[parameters('azurefile_2_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_3_Connection_Name'))]",
+                "connectionName": "[parameters('azurefile_3_Connection_Name')]"
               }
             }
           }
@@ -262,7 +283,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azurefile_2_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azurefile_3_Connection_Name'))]"
       ]
     },
     {
@@ -294,6 +315,22 @@
         "parameterValues": {
           "accountName": "[parameters('azurefile_2_accountName')]",
           "accessKey": "[parameters('azurefile_2_accessKey')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azurefile_3_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]"
+        },
+        "displayName": "[parameters('azurefile_3_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azurefile_3_accountName')]",
+          "accessKey": "[parameters('azurefile_3_accessKey')]"
         }
       }
     }
