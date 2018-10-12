@@ -93,6 +93,11 @@
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
       }
+    },
+    "LogicAppIntegrationAccount": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "/subscriptions/6eda0e0d-5dd6-4ef5-bc10-21a9a3371203/resourcegroups/MyFirstLogicApp/providers/Microsoft.Logic/integrationAccounts/DemoIntegrationAccount"
     }
   },
   "variables": {},
@@ -118,15 +123,19 @@
                   }
                 },
                 "method": "post",
-                "body": "@triggerBody()",
+                "body": "@body('Transform_XML')",
                 "path": "/datasets/default/files",
                 "queries": {
                   "folderPath": "[parameters('FileSharePath')]",
-                  "name": "@{triggerBody()?['Order']?['BatchFileName']}.json",
+                  "name": "@{triggerBody()?['Order']?['BatchFileName']}.xml",
                   "queryParametersSingleEncoded": true
                 }
               },
-              "runAfter": {},
+              "runAfter": {
+                "Transform_XML": [
+                  "Succeeded"
+                ]
+              },
               "runtimeConfiguration": {
                 "contentTransfer": {
                   "transferMode": "Chunked"
@@ -139,7 +148,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Bath fie is reated in FileShare"
+                  "Status": "Success"
                 },
                 "schema": {
                   "type": "object",
@@ -155,6 +164,34 @@
                   "Succeeded"
                 ]
               }
+            },
+            "Transform_XML": {
+              "type": "Xslt",
+              "inputs": {
+                "content": "@{xml(triggerBody())}",
+                "integrationAccount": {
+                  "map": {
+                    "name": "Map_Order_To_Invoice"
+                  }
+                }
+              },
+              "runAfter": {
+                "XML_Validation": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "XML_Validation": {
+              "type": "XmlValidation",
+              "inputs": {
+                "content": "@{xml(triggerBody())}",
+                "integrationAccount": {
+                  "schema": {
+                    "name": "Input_OrderSchema"
+                  }
+                }
+              },
+              "runAfter": {}
             }
           },
           "parameters": {
@@ -219,6 +256,9 @@
               }
             }
           }
+        },
+        "integrationAccount": {
+          "id": "[parameters('LogicAppIntegrationAccount')]"
         }
       },
       "dependsOn": [

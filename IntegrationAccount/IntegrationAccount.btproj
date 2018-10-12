@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D18F7E11-6550-43E5-A265-5663060ADE86}</ProjectGuid>
+    <ProjectTypeGuids>{EF7E3281-CD33-11D4-8326-00C04FA0CE8D};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>IntegrationAccount</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Schema Include="Input_OrderSchema.xsd">
+      <SubType>Task</SubType>
+      <TypeName>Input_OrderSchema</TypeName>
+      <Namespace>IntegrationAccount</Namespace>
+    </Schema>
+  </ItemGroup>
+  <ItemGroup>
+    <Schema Include="InvoiceSchema.xsd">
+      <SubType>Designer</SubType>
+      <TypeName>InvoiceSchema</TypeName>
+      <Namespace>IntegrationAccount</Namespace>
+    </Schema>
+  </ItemGroup>
+  <ItemGroup>
+    <Map Include="Map_Order_To_Invoice.btm">
+      <TypeName>Map_Order_To_Invoice</TypeName>
+      <Namespace>IntegrationAccount</Namespace>
+      <SubType>Task</SubType>
+    </Map>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.CurrentVersion.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Azure Integration SDK\IntegrationTasks.targets" />
+</Project>
