@@ -6,6 +6,7 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 80,
+      "defaultValue": "File1",
       "metadata": {
         "description": "Name of the Logic App."
       }
@@ -14,6 +15,7 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 80,
+      "defaultValue": "/share",
       "metadata": {
         "description": "File Share path"
       }
