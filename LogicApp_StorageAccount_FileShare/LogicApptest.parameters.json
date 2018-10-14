@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "logicAppName": {
+        "value": "Demo_FileShareApp"
+      },
+      "FileSharePath": {
+            "value": "/test-fileshare"
+        },
+        "azurefile_1_accessKey": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/demodevopsvault"
+                },
+                "secretName": "FileShareaccesskey1"
+            }
+        },
+        "azurefile_2_accessKey": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/demodevopsvault"
+                },
+                "secretName": "FileShareaccesskey1"
+            }
+        },
+        "azurefile_3_accessKey": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/demodevopsvault"
+                },
+                "secretName": "FileShareaccesskey1"
+            }
+        }
+    }
+}

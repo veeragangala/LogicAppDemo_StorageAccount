@@ -1,0 +1,15 @@
+﻿<Order>
+  <BatchFileName>FirstOrder</BatchFileName>
+  <OrdersDetails>
+    <OrderInfo>
+      <Name>Mobile</Name>
+      <Price>3000</Price>
+    </OrderInfo>
+  </OrdersDetails>
+  <OrdersDetails>
+    <OrderInfo>
+      <Name>Laptop</Name>
+      <Price>30000</Price>
+    </OrderInfo>
+  </OrdersDetails>
+</Order>
