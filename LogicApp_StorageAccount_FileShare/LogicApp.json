@@ -73,7 +73,8 @@
       "type": "securestring",
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
-      }
+      },
+      "defaultValue": "filestorageacc"
     },
     "azurefile_2_Connection_Name": {
       "type": "string",
@@ -94,7 +95,8 @@
       "type": "securestring",
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
-      }
+      },
+      "defaultValue": "filestorageacc"
     },
     "LogicAppIntegrationAccount": {
       "type": "string",
@@ -120,7 +122,8 @@
       "type": "securestring",
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
-      }
+      },
+      "defaultValue": "filestorageacc"
     }
   },
   "variables": {},
